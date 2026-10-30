@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gitea-auto-reviewer — 이현수</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main class="detail">
+  <a class="back" href="../index.html">← 이현수</a>
+  <header>
+    <p class="kind">프로젝트 · 실무 <em class="kind-badge">오픈소스</em></p>
+    <h1>gitea-auto-reviewer</h1>
+    <p class="lead">온프레미스 Gitea AI 코드 리뷰어</p>
+    <p class="meta">개인 프로젝트 · MIT · <a href="https://github.com/hyunsuhahaha/gitea-auto-reviewer">github.com/hyunsuhahaha/gitea-auto-reviewer</a></p>
+    <div class="chips"><span>Python 3.11 (stdlib only)</span><span>Codex CLI</span><span>GitNexus</span><span>Gitea Actions</span><span>Windows runner</span><span>Django · pytest</span></div>
+  </header>
+  <article>
+<h2>리뷰 파이프라인</h2>
+          <ul class="pts">
+            <li><strong>정적 분석 (1차)</strong>GitNexus 의존성 그래프로 변경 심볼의 호출자·피호출자·영향 경로를 추적하고, Codex가 diff·레포 전체·그래프를 함께 보고 bug·security·performance·dependency·policy 후보를 최대 5건 생성. 모든 지적에 실제 file:line 근거를 요구하고 존재 여부를 검증.</li>
+            <li><strong>재현·검증 (2차)</strong>후보를 테스트 DB의 transaction.atomic() 안에서 Django view·ORM을 직접 호출해 재현하고 expected/observed로 판정한 뒤 강제 롤백. 불확실하면 재현 스크립트를 자동 수정해 1회 재실행.</li>
+            <li><strong>분류</strong>재현·검증 성공은 "재현된 문제", 미재현은 "재현하지 못한 발견", 재현했지만 반증 검토에서 탈락한 것은 "2차 검증 미채택"으로 나눠 PR 댓글에 게시. 한 번 안 걸렸다고 지적을 삭제하지 않음.</li>
+          </ul>
+          <h2>안전 · 설계</h2>
+          <ul class="pts">
+            <li><strong>권한 최소화</strong>pull_request_target 신뢰 워크플로에서 동일 저장소 PR만 처리하고, PR 코드는 실행하지 않고 base만 가져옴. 리뷰는 읽기 전용 샌드박스, Gitea 토큰은 댓글 단계에서만 사용. 승인·머지·푸시·브랜치 보호 변경은 하지 않는 1차 리뷰어.</li>
+            <li><strong>재현 결과를 head SHA에 바인딩</strong>(evidence.json)해 같은 커밋의 결과를 보존. 런타임 의존성 없이 Python 표준 라이브러리만 사용.</li>
+          </ul>
+  </article>
+  <nav class="pager"><a href="pamon.html"><small>이전</small>pamon</a><a class="next" href="shadowtrace.html"><small>다음</small>ShadowTrace</a></nav>
+</main>
+</body>
+</html>

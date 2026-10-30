@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NoxGlobal — 이현수</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main class="detail">
+  <a class="back" href="../index.html">← 이현수</a>
+  <header>
+    <p class="kind">경력 · 2026.07 – 12 <em class="kind-badge">실무</em></p>
+    <h1>NoxGlobal</h1>
+    <p class="lead">IT팀 인턴</p>
+    <p class="meta">2026.07 – 2026.12 (종료 예정) · IT팀 인턴 · MES 개발 + 배포·운영 인프라</p>
+    <div class="chips"><span>Python · Django 5</span><span>PostgreSQL</span><span>MSSQL</span><span>IIS · ARR</span><span>Gitea Actions</span><span>Hyper-V</span><span>Airflow</span><span>Linux(CentOS)</span><span>Apache</span><span>MariaDB</span><span>Naver Cloud</span></div>
+  </header>
+  <article>
+<figure><img src="../img/mes-monitor.png" alt="MES 서버상태 모니터링 대시보드" loading="lazy"></figure>
+<h2>주요 업무</h2>
+          <ul class="pts">
+            <li><strong>운영 성능 개선</strong>운영 MES 평균 API 응답 <span class="hl">400ms대 → 95ms(약 76%↓)</span>, CPU 하루 평균 <span class="hl">57% → 30%</span>.<ul><li>쿼리 튜닝(N+1 해소, 조회 범위 축소 등)</li><li>DB 커넥션 재사용(Persistent Connection)으로 요청당 연결 수립 비용 제거</li><li>Django 템플릿 캐시 로더(cached.Loader) 적용으로 템플릿 처리 시간 최대 86% 단축</li><li>동기식 조회 → 비동기 처리로 전환해 사용자 체감 레이턴시 최소화</li><li>FastCGI 워커 재활용 주기 조정·정적 파일 IIS 직접 서빙으로 워커 부하 감소</li></ul></li>
+            <li><strong>서버 장애 대응·원인 분석</strong>방화벽·리버스 프록시·백엔드 프로세스·DB 서버로 이어지는 요청 흐름과 컴포넌트 간 통신 구조를 분석하고, 계층별 로그 상관 분석으로 장애에 대응.<ul><li>요청 단위 트레이싱(Django 미들웨어·DB 훅)으로 처리 시간을 DB·외부 DB 연동·애플리케이션 구간으로 분해해 병목·워커 포화 식별</li></ul></li>
+            <li><strong>MES 관리자 페이지 개선, 서버 모니터링 개발</strong>어드민 페이지 역할 기반 접근 제어(RBAC) 적용, 리소스·응답 지연·DB·배포 상태 실시간 모니터링 대시보드 구축.</li>
+            <li><strong>IIS 블루그린 무중단 배포</strong>IIS 리버스 프록시(ARR)로 BLUE/GREEN 슬롯을 전환하는 무중단 배포 구성.<ul><li>배포 후 smoke test 실패 시 자동 롤백</li><li>배포 시 화면 상태 자동 저장·복원으로 작업 끊김 방지</li></ul></li>
+            <li><strong>CI/CD 파이프라인, Hyper-V 스테이징 환경 구축·운영</strong>온프레미스 Gitea·self-hosted runner로 MES·SCM 등 사내 서비스의 PR 검사·운영 배포·자동 롤백 워크플로를 구성하고, 운영 동일 구성(IIS+PostgreSQL)의 스테이징 환경(Hyper-V)을 구축·운영하며 파이프라인에 연결.</li>
+            <li><strong>회사 홈페이지 CI/CD 구축·운영</strong>네이버 클라우드의 CentOS·MariaDB 서버에서 운영하는 회사 홈페이지(noxglobal.com)에 SFTP·SSH 기반 배포 CI/CD 파이프라인 구축·운영.</li>
+            <li><strong>CI 파이프라인 최적화</strong>PR 검사 시간 <span class="hl">1분대 → 10초대</span>.<ul><li>의존성 환경·저장소 캐싱으로 패키지 설치·소스 체크아웃 시간 단축</li><li>프로파일링으로 테스트 병목 파악, 준비 단계 캐싱으로 반복 작업 제거</li><li>테스트 병렬 실행·중복 실행 취소</li></ul></li>
+            <li><strong>DB 마이그레이션 자동화</strong>스키마·뷰·트리거·프로시저 변경을 테스트 환경에서 migration으로 기록하고, 운영 릴리즈 시 운영 DB에 자동 적용.</li>
+            <li><strong>MES 생산데이터 이상 탐지</strong>MES·ERP의 투입내역·QR·실자재 데이터에서 누락·불일치를 자동으로 찾는 검사 시스템 개발(FastAPI·React).<ul><li>MES API·Playwright로 MES·ERP 데이터를 수집해 품목·수량 기준으로 대조</li><li>Airflow 배치 파이프라인, 멱등성(Idempotency) 보장으로 중복 실행 방지</li><li>라인별 누락률과 누락 시점 원본을 대시보드로 제공하고 담당자에게 메일 알림</li></ul></li>
+            <li><strong>레거시 PHP 서비스 취약점 진단·조치</strong>SSRF·파일 업로드 취약점을 진단해 URL 화이트리스트·업로드 디렉터리 PHP 실행 차단으로 웹셸·내부망 접근 경로 차단.</li>
+            <li><strong>보안 위협 인텔리전스 기반 정책 개선</strong>CISA 위협 동향을 분석해 사내 SSL-VPN의 접근통제 위험을 보고하고, 관리자 MFA 적용·접속 IP 제한 등 정책 강화에 기여.</li>
+            <li><strong>현업 커뮤니케이션·요구사항 정리</strong>공장 근무자 교육·민원 대응, 현장 요구사항을 문서로 정리해 개발팀에 전달.</li>
+          </ul>
+  </article>
+  <nav class="pager"><span></span><a class="next" href="lily.html"><small>다음</small>SoftBank 해커톤 2026</a></nav>
+</main>
+</body>
+</html>
