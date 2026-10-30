@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>pamon — 이현수</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<main class="detail">
+  <a class="back" href="../index.html">← 이현수</a>
+  <header>
+    <p class="kind">프로젝트 · 2026.10 <em class="kind-badge">개인</em></p>
+    <h1>pamon</h1>
+    <p class="lead">외부 API 장애 원인 추적용 SRE 모니터</p>
+    <p class="meta">2026.10 · 개인 프로젝트 · <a href="https://github.com/hyunsuhahaha/public-api-monitor">github.com/hyunsuhahaha/public-api-monitor</a> · <a href="https://pamon.hyunsuhahaha.workers.dev/">pamon.hyunsuhahaha.workers.dev</a></p>
+    <div class="chips"><span>Go</span><span>SQLite · Litestream</span><span>GCP</span><span>Docker</span><span>Caddy</span><span>Cloudflare Workers · D1</span><span>GitHub Actions</span></div>
+  </header>
+  <article>
+<h2>장애 판정</h2>
+          <ul class="pts">
+            <li>공공 API는 실패해도 HTTP 200을 줌. 응답 본문의 결과 코드까지 읽어서 판정하고, 키 미등록·호출 한도 같은 우리 쪽 문제는 장애에서 뺌.</li>
+            <li>인증이 필요한 API는 키 없이 호출해서 그 서비스가 직접 거절하는지로 확인. CDN이 대신 준 403이나 점검 페이지는 정상으로 안 침.</li>
+            <li>API마다 최근 응답으로 평소 속도를 학습해서 느림 기준을 정함.</li>
+          </ul>
+          <h2>원인 추적</h2>
+          <ul class="pts">
+            <li>요청을 DNS·TCP·TLS·서버 대기 구간으로 나눠서 어디서 멈췄는지 기록 (Go <i>httptrace</i>).</li>
+            <li>타임아웃이 나면 같은 요청을 한 번 더 길게 보내서, 일시적으로 걸린 건지 서버 전체가 느린 건지 구분.</li>
+            <li>같은 시각 다른 서버, 같은 기관 다른 API 결과와 비교해서 기관 서버 문제인지 네트워크 문제인지 근거를 남김.</li>
+          </ul>
+          <h2>SLO · 장애 대응</h2>
+          <ul class="pts">
+            <li>API별 SLO, 에러 버짓, burn-rate. 장애 기록, 포스트모템 초안, 런북.</li>
+            <li>하룻밤 돌려보니 응답 형식 변경 알림 6건이 다 오탐이었음. 에러 응답은 학습에서 빼고, 느림 기준은 정상 응답으로만 계산하게 고침.</li>
+          </ul>
+          <h2>운영</h2>
+          <ul class="pts">
+            <li>GCP VM 한 대에서 5분마다 검사하고 결과를 정적 사이트로 내보냄 (systemd 타이머, Docker, Caddy).</li>
+            <li>SQLite를 Litestream으로 GCS에 실시간 복제.</li>
+            <li>Cloudflare Workers를 공개 입구로 두고 접속 기록은 D1에 저장.</li>
+            <li>서버와 분리된 GitHub Actions에서 5분마다 사이트가 최신인지 확인.</li>
+          </ul>
+  </article>
+  <nav class="pager"><a href="lily.html"><small>이전</small>SoftBank 해커톤 2026</a><a class="next" href="gitea-auto-reviewer.html"><small>다음</small>gitea-auto-reviewer</a></nav>
+</main>
+</body>
+</html>
